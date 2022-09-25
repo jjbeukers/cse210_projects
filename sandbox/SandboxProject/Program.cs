@@ -13,10 +13,11 @@ namespace SandboxProject
         static void Main(string[] args)
         {
             DisplayGreeting();
+            List<string> board = NewBoard();
 
             // Shall we always start with the same player? 
             string CurrentPlayer = "X";
-            List<string> board = NewBoard();
+            
 
             while (!GameOver(board))
             {
@@ -25,10 +26,19 @@ namespace SandboxProject
                 int squareChoice = GetUserChoice(CurrentPlayer);
                 UpdateBoard(board, CurrentPlayer, squareChoice);
 
-                List<string> board = NewBoard();
-
                 CurrentPlayer = CurrentTurn(CurrentPlayer);
             }
+            // Should I display my winner message here in the main function? Or in the
+            // WhoWon function? How do I get the program to recognize who won? The outline 
+            //just says "Good game, thanks for playing. Let's try that with a {current player}
+            // inside the statement. That didn't work. Let's go generic and go to sleep.
+            //if (CurrentPlayer == "X")
+            //{
+            //    winner = "O";
+            //}
+
+            //Console.WriteLine($"Congratulations, {winner}! You won! ");
+            Console.WriteLine("Good game! Thanks for playing!");
         }
 
             // While loop. Loop for the back and forth between X and O until
@@ -46,16 +56,14 @@ namespace SandboxProject
         // Change the numbers to the appropriate mark.
 
         // Function to determine whose turn it is.
-        static List<string> DisplayBoard(List<string> board)
+        static void DisplayBoard(List<string> board)
         {
             // Lists are a zero based index. Stard with zero
             Console.WriteLine($"{board[0]} | {board[1]} | {board[2]}");
             Console.WriteLine("- + - + -");
             Console.WriteLine($"{board[3]} | {board[4]} | {board[5]}");
             Console.WriteLine("- + - + -");
-            Console.WriteLine($"{board[6]} | {board[7]} | {board[8]}");    
-
-            return board;        
+            Console.WriteLine($"{board[6]} | {board[7]} | {board[8]}");       
         }
 
         static void UpdateBoard(List<string>board, string CurrentPlayer, int squareChoice)
@@ -138,8 +146,6 @@ namespace SandboxProject
 
             return board;
         }
-
-        
 
         static void DisplayGreeting()
         {
