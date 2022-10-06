@@ -7,3 +7,33 @@
   </PropertyGroup>
 
 </Project>
+
+public class Card
+  { 
+    public int score = 300
+    public int points = 0
+
+
+    // Create the class constructor
+
+    public Card()
+    {
+
+    }
+    public void Draw
+
+    I guess we need to start out with a card, make a guess, then make another draw.
+    We would write out a random draw (1, 14)
+    The next card isn't displayed until the guess has been made. 
+
+  }
+    
+This will be a separate file.
+
+For the Director:
+
+public class Director
+  {
+   current card
+   next card 
+  }
