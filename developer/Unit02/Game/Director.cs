@@ -22,6 +22,8 @@ namespace Unit02.Game
         int currentCard;
         int nextCard;
 
+        string guess;
+
         /// <summary>
         /// Constructs a new instance of Director.
         /// </summary>
@@ -40,9 +42,9 @@ namespace Unit02.Game
             // If this works, it should set my first card, and then I can
             // call this in my getUpdates() section. This should only
             // happen once since it isn't in the while loop.
-            Card card = new card();
+            Card card = new Card();
             card.Draw();
-            currentCard = card.value();
+            currentCard = card.value;
 
             while (_isPlaying)
             {
@@ -67,7 +69,7 @@ namespace Unit02.Game
             Console.WriteLine($"The card is {currentCard}");
             // We will get input for the user to guess if they think the
             // next card will be higher or lower. 
-            Console.WriteLine("Will the next card be higher or lower? [h/l] ");
+            Console.Write("Will the next card be higher or lower? [h/l] ");
             string guess = Console.ReadLine();
         }
 
@@ -76,6 +78,10 @@ namespace Unit02.Game
         /// </summary>
         public void DoUpdates()
         {
+            int score = 0;
+
+            Card card = new Card();
+
             if (!_isPlaying)
             {
                 return;
@@ -83,19 +89,19 @@ namespace Unit02.Game
         
             card.Draw();
             // Setting the next card to the draw value.
-            nextCard = card.value();
+            nextCard = card.value;
 
             if (guess == "h")
             {
                 if (currentCard < nextCard)
                 {
                     score = win;
-                    console.WriteLine("You guessed correctly!");
+                    Console.WriteLine("You guessed correctly!");
                 }    
                 else
                 {
                     score = loss;
-                    console.WriteLine("You lose! ")
+                    Console.WriteLine("You lose! ");
                 }
             }
             if (guess == "l")
@@ -103,12 +109,12 @@ namespace Unit02.Game
                 if (currentCard < nextCard)
                 {
                     score = loss;
-                    console.WriteLine("You lose! ")
+                    Console.WriteLine("You lose! ");
                 }
                 else
                 {
                     score = win;
-                    console.WriteLine("You guessed correctly!");
+                    Console.WriteLine("You guessed correctly!");
                 }    
             }
 
@@ -127,7 +133,7 @@ namespace Unit02.Game
 
             Console.WriteLine($"The next card is: {nextCard}");
             Console.WriteLine($"Your score is: {_totalScore}\n");
-            _isPlaying = (score > 0);
+            _isPlaying = (_totalScore > 0);
         }
     }
 }
