@@ -50,7 +50,7 @@ namespace Unit02.Game
                 GetInputs();
                 DoUpdates();
                 DoOutputs();
-                currentCard = nextCard
+                currentCard = nextCard;
             }
         }
 
