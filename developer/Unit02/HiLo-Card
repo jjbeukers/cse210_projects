@@ -17,7 +17,7 @@ namespace Unit02.Game
         public class Card
         {
             // Okay, we need to track the value of the card drawn.
-            public int cardValue; 
+            public int value; 
 
 
     // 2) Create the class constructor. Use the following method comment.
@@ -25,10 +25,10 @@ namespace Unit02.Game
         /// <summary>
         /// Constructs a new instance of Draw.
         /// </summary>
-            public Draw()
+            public void Draw()
             {
                 Random random = new Random();
-                value = random.next(1, 14);
+                value = random.Next(1, 14);
             }
             
         }    
