@@ -43,12 +43,12 @@ namespace Unit02.Game
             Card card = new Card();
             card.Draw();
             currentCard = card.value;
+            string guess;
 
             while (_isPlaying)
             {
-                
-                GetInputs();
-                DoUpdates();
+                guess = GetInputs();
+                DoUpdates(guess);
                 DoOutputs();
                 currentCard = nextCard;
             }
@@ -57,10 +57,9 @@ namespace Unit02.Game
         /// <summary>
         /// Asks the user if they want to plsy.
         /// </summary>
-        public void GetInputs()
+        public string GetInputs()
         {
-            int score = 0;
-
+            
             // We're going to ask if the person would like to play
             Console.Write("Draw a card? [y/n] ");
             string cardDraw = Console.ReadLine();
@@ -71,6 +70,27 @@ namespace Unit02.Game
             // next card will be higher or lower. 
             Console.Write("Will the next card be higher or lower? [h/l] ");
             string guess = Console.ReadLine();
+
+            return guess;
+
+        }
+
+        /// <summary>
+        /// Updates the player's score.
+        /// </summary>
+        public void DoUpdates(string guess)
+        {
+            int score = 0;
+            
+            Card card = new Card();
+
+            if (!_isPlaying)
+            {
+                return;
+            }
+            card.Draw();
+            // Setting the next card to the draw value.
+            nextCard = card.value;
 
             if (guess == "h")
             {
@@ -100,24 +120,6 @@ namespace Unit02.Game
             }
 
             _totalScore += score;
-
-        }
-
-        /// <summary>
-        /// Updates the player's score.
-        /// </summary>
-        public void DoUpdates()
-        {
-            Card card = new Card();
-
-            if (!_isPlaying)
-            {
-                return;
-            }
-        
-            card.Draw();
-            // Setting the next card to the draw value.
-            nextCard = card.value;
 
             
         }
