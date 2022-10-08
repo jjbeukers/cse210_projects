@@ -63,8 +63,9 @@ namespace Unit02.Game
             // We're going to ask if the person would like to play
             Console.Write("Draw a card? [y/n] ");
             string cardDraw = Console.ReadLine();
-            _isPlaying = (cardDraw == "y");
-            // Now we will display the card 
+            if (_isPlaying = (cardDraw == "y"))
+            {
+                // Now we will display the card 
             Console.WriteLine($"The card is {currentCard}");
             // We will get input for the user to guess if they think the
             // next card will be higher or lower. 
@@ -72,6 +73,14 @@ namespace Unit02.Game
             string guess = Console.ReadLine();
 
             return guess;
+            }
+            
+            else
+            {
+                return "quit";
+            }
+            
+            
 
         }
 
