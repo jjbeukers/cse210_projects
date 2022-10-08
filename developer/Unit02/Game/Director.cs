@@ -22,8 +22,6 @@ namespace Unit02.Game
         int currentCard;
         int nextCard;
 
-        string guess;
-
         /// <summary>
         /// Constructs a new instance of Director.
         /// </summary>
@@ -61,6 +59,8 @@ namespace Unit02.Game
         /// </summary>
         public void GetInputs()
         {
+            int score = 0;
+
             // We're going to ask if the person would like to play
             Console.Write("Draw a card? [y/n] ");
             string cardDraw = Console.ReadLine();
@@ -71,25 +71,6 @@ namespace Unit02.Game
             // next card will be higher or lower. 
             Console.Write("Will the next card be higher or lower? [h/l] ");
             string guess = Console.ReadLine();
-        }
-
-        /// <summary>
-        /// Updates the player's score.
-        /// </summary>
-        public void DoUpdates()
-        {
-            int score = 0;
-
-            Card card = new Card();
-
-            if (!_isPlaying)
-            {
-                return;
-            }
-        
-            card.Draw();
-            // Setting the next card to the draw value.
-            nextCard = card.value;
 
             if (guess == "h")
             {
@@ -119,6 +100,26 @@ namespace Unit02.Game
             }
 
             _totalScore += score;
+
+        }
+
+        /// <summary>
+        /// Updates the player's score.
+        /// </summary>
+        public void DoUpdates()
+        {
+            Card card = new Card();
+
+            if (!_isPlaying)
+            {
+                return;
+            }
+        
+            card.Draw();
+            // Setting the next card to the draw value.
+            nextCard = card.value;
+
+            
         }
 
         /// <summary>
