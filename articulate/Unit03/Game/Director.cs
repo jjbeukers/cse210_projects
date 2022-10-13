@@ -38,7 +38,7 @@ namespace Unit03.Game
         /// </summary>
         private void GetInputs()
         {
-            _terminalService.WriteText(_hider._location.ToString());
+            //_terminalService.WriteText(_hider._location.ToString()); This makes the game not very fun.
             int location = _terminalService.ReadNumber("\nEnter a location [1-1000]: ");
             _seeker.MoveLocation(location);
         }
