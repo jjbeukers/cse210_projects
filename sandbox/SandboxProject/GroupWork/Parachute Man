@@ -1,0 +1,27 @@
+Classes to Create:
+Director
+    Starts Game
+    GetInputs
+    DoUpdates
+    DoOutputs
+Terminal Service
+    function called GameBoard (like tic-tac-toe)
+Word
+    Create a list of strings, form a list, then choose a word at random
+Guess
+    Compare the input to the individual letters in the word
+
+First: Choose a random word - set the word as private to protect it from being re-written
+generate output: dashes corresponding to the length of the word.
+Ask for a letter - go to Guess
+    After the input is assessed, we will either have success or failure. 
+
+    Success: Replace the dash with the proper letter
+    Failure: The parachute loses a dash
+
+Output: "The letter {guess} is/is not in the word"
+print the parachute again.
+
+End of game: 
+    isPlaying is true until: The game ends with guessing the word, or the parachute is gone.
+
