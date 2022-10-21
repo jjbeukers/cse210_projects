@@ -19,6 +19,7 @@ namespace Unit04.Game
         /// </summary>
         public Director()
         {
+            int wrongGuesses = 0;
         }
 
         /// <summary>
@@ -26,7 +27,7 @@ namespace Unit04.Game
         /// </summary>
         public void StartGame()
         {
-            int _wrongGuesses = 0;
+            
             // Call a function that draws the dashes for the word.
             // Call a function that draws the parachute man.
             while (_isPlaying)
@@ -72,9 +73,9 @@ namespace Unit04.Game
            // and update the parachute accordingly.
             if (guessedRight == 0)
             {
-                _wrongGuesses ++;
+                director.wrongGuesses ++;
             } 
-            for (int i = _wrongGuesses; i < 6; i++)
+            for (int i = director.wrongGuesses; i < 6; i++;)
             {
                 if (i == 0) 
                 {
