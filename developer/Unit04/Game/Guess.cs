@@ -14,7 +14,7 @@ namespace Unit04.Game
         }
         public void getGuess()
         {
-            prompt = "What is your guess? (a-z) ";
+            string prompt = "What is your guess? (a-z) ";
             response = TerminalService.ReadText(prompt);
 
         }
