@@ -26,7 +26,7 @@ namespace Unit04.Game
         /// </summary>
         public void StartGame()
         {
-            int wrongGuesses = 0
+            int wrongGuesses = 0;
             // Call a function that draws the dashes for the word.
             // Call a function that draws the parachute man.
             while (_isPlaying)
@@ -43,7 +43,7 @@ namespace Unit04.Game
         /// </summary>
         private void GetInputs()
         {
-            guess.getGuess() // Write this class to get a guess from the user
+            guess.getGuess(); // Write this class to get a guess from the user
         }
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace Unit04.Game
         /// </summary>
         private void DoUpdates()
         {
-            int guessedRight = 0 // This should keep track of whether or not the guess was correct.
+            int guessedRight = 0; // This should keep track of whether or not the guess was correct.
             // If it was correct, this will be greater than zero.
             // I guess this could be a boolean, too, but I like this because it works
 
@@ -74,7 +74,7 @@ namespace Unit04.Game
             {
                 wrongGuesses ++;
             } 
-            for (i = wrongGuesses:5)
+            for (i = wrongGuesses:5);
             {
                 if (i == 0) 
                 {
@@ -96,7 +96,7 @@ namespace Unit04.Game
                 {
                     Console.WriteLine("  0  ");
                 } 
-                if i == 5 
+                if (i == 5)
                 {
                     Console.WriteLine(" /|\\ ");
                     Console.WriteLine(" / \\ ");
