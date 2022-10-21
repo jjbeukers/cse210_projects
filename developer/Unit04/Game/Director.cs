@@ -1,7 +1,7 @@
 //using System.Collections.Generic;
-//using Unit04.Game.Guess;
-//using Unit04.Game.Word;
-//using Unit04.Game.TerminalService;
+using Unit04.Game.Guess;
+using Unit04.Game.Word;
+using Unit04.Game.TerminalService;
 
 
 namespace Unit04.Game
