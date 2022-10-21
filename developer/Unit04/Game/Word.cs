@@ -14,11 +14,8 @@ namespace Unit04.Game
             List<string> wordDictionary = new List<string> {"temple"};
             int index = random.Next(wordDictionary.Count);
             string randomWord = wordDictionary[index];
-            string outputWord
-
-            
-
-            
+            string outputWord;
 
         }
     }
+}
