@@ -10,7 +10,7 @@ namespace Unit04.Game
     {
         private Word()
         {
-            Random random new Random();
+            Random random = new Random();
             List<string> wordDictionary = new List<string> {"temple"};
             int index = random.Next(wordDictionary.Count);
             string randomWord = wordDictionary[index];

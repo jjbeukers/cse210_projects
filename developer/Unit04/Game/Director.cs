@@ -75,7 +75,7 @@ namespace Unit04.Game
             {
                 director.wrongGuesses ++;
             } 
-            for (int i = director.wrongGuesses; i < 6; i++;)
+            for (int i = director.wrongGuesses; i < 6; i++)
             {
                 if (i == 0) 
                 {
