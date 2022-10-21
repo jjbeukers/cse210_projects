@@ -4,7 +4,7 @@ using Unit04.Game.Word;
 using Unit04.Game.TerminalService;
 
 
-namespace Unit04.Game.Director
+namespace Unit04.Game
 {
      public class Director
     {
