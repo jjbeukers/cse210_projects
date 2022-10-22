@@ -11,7 +11,7 @@ namespace Unit04.Game
         private Word _word = new Word();
         private bool _isPlaying = true;
         private Guess _guess = new Guess();
-        //private TerminalService _terminalService = new TerminalService();
+        private TerminalService _terminalService = new TerminalService();
 
 
         /// <summary>
@@ -117,10 +117,10 @@ namespace Unit04.Game
            
             
             
-            if (_hider.IsFound())
-            {
-                _isPlaying = false;
-            }
+            //if (_hider.IsFound())
+            //{
+            //    _isPlaying = false;
+            //}
             
         }
     }
