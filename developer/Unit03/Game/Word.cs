@@ -15,7 +15,7 @@ namespace Unit03.Game
         public Word()
         {
             Random random = new Random();
-            List<string> wordDictionary = new List<string> {"temple"};
+            List<string> wordDictionary = new List<string> {"temple", "scriptures", "family", "prophet", "liahona", "dispensation"};
             int index = random.Next(wordDictionary.Count);
             randomWord = wordDictionary[index];
             
