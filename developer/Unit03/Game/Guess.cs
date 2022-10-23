@@ -1,13 +1,13 @@
 using System;
-//using Unit04.Game.TerminalService;
 
 
-namespace Unit04.Game
+namespace Unit03.Game
 {
    
     public class Guess
     {
-        string response = "";
+        public string response = "";
+        TerminalService terminalService = new TerminalService();
 
         public Guess()
         {

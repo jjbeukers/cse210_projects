@@ -1,7 +1,7 @@
 using System;
 
 
-namespace Unit04.Game
+namespace Unit03.Game
 {
     /// <summary>
     /// <para>A service that handles terminal operations.</para>

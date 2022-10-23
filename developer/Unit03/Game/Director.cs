@@ -1,25 +1,24 @@
-//using System.Collections.Generic;
-//using Unit04.Game.Guess;
-//using Unit04.Game.Word;
-//using Unit04.Game.TerminalService;
+//using system;
+using System.Collections.Generic;
+using System.Globalization;
 
-
-namespace Unit04.Game
+//
+namespace Unit03.Game
 {
      public class Director
     {
-        private Word _word = new Word();
+        Word word = new Word();
         private bool _isPlaying = true;
-        private Guess _guess = new Guess();
-        private TerminalService _terminalService = new TerminalService();
-
+        private Guess guess = new Guess();
+        private TerminalService terminalService = new TerminalService();
+        int wrongGuesses = 0;
 
         /// <summary>
         /// Constructs a new instance of Director.
         /// </summary>
         public Director()
         {
-            int wrongGuesses = 0;
+            wrongGuesses = 0;
         }
 
         /// <summary>
@@ -57,52 +56,57 @@ namespace Unit04.Game
             int guessedRight = 0; // This should keep track of whether or not the guess was correct.
             // If it was correct, this will be greater than zero.
             // I guess this could be a boolean, too, but I like this because it works
+            int index = 0;
 
-
-           foreach (char l in guess.randomWord)
+           foreach (char l in word.randomWord)
            {
-                if (guess.response == l)
+                string temp = l.ToString(); // you can't use the == operator to compare strings and 
+                // characters. so this variable "temp" changes the character to a string. 
+                
+                if (guess.response == temp)
                 {
-                    outputWord[i] == guess.response; //Hopefully, this will replace just the letter with
+                    word.outputWord[index] = guess.response[0]; //Hopefully, this will replace just the letter with
                     // the correct guess. 
                     guessedRight = 1;
+                    
                 } 
+                index ++;
            }
            // If guessedRight is still equal to zero after it runs the for loop, you know the 
            // Letter was not a match and we need to count the number of incorrect guesses
            // and update the parachute accordingly.
             if (guessedRight == 0)
             {
-                director.wrongGuesses ++;
+                wrongGuesses ++;
             } 
-            for (int i = director.wrongGuesses; i < 6; i++)
+            for (int i = wrongGuesses; i < 6; i++)
             {
                 if (i == 0) 
                 {
-                    Console.WriteLine(" ___ ");
+                    terminalService.WriteText(" ___ ");
                 }
                 if (i == 1)
                 {
-                    Console.WriteLine("/___\\");
+                    terminalService.WriteText("/___\\");
                 }
                 if (i == 2) 
                 {
-                    Console.WriteLine("\\   / ");
+                    terminalService.WriteText("\\   / ");
                 }  
                 if (i == 3) 
                 {
-                    Console.WriteLine(" \\ / ");
+                    terminalService.WriteText(" \\ / ");
                 }
                 if (i == 4)
                 {
-                    Console.WriteLine("  0  ");
+                    terminalService.WriteText("  0  ");
                 } 
                 if (i == 5)
                 {
-                    Console.WriteLine(" /|\\ ");
-                    Console.WriteLine(" / \\ ");
-                    Console.WriteLine(" ");
-                    Console.WriteLine("^^^^^");
+                    terminalService.WriteText(" /|\\ ");
+                    terminalService.WriteText(" / \\ ");
+                    terminalService.WriteText(" ");
+                    terminalService.WriteText("^^^^^");
                 }    
             }
 
