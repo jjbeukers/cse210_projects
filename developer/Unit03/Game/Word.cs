@@ -18,13 +18,21 @@ namespace Unit03.Game
             List<string> wordDictionary = new List<string> {"temple"};
             int index = random.Next(wordDictionary.Count);
             randomWord = wordDictionary[index];
-            public char [] outputWord = new char[randomWord.Length];
             
+        }    
+         
+        public char[] Blanks()
+        {
+            char [] outputWord = new char[randomWord.Length*2];
             //loop placing a '_' in every space of the word?
-            for (int i = 0; i<randomWord.Length-1; i++)
+            for (int i = 0; i<randomWord.Length*2; i=i+2)
             {
-               outputWord[i] = '_';     
+               outputWord[i] = '_';
+               outputWord[i+1] = ' ' ;    
             }
+
+            return outputWord;
         }
+     
     }
 }

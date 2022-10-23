@@ -19,6 +19,7 @@ namespace Unit03.Game
         public Director()
         {
             wrongGuesses = 0;
+          
         }
 
         /// <summary>
@@ -26,15 +27,22 @@ namespace Unit03.Game
         /// </summary>
         public void StartGame()
         {
-            
+            char[] outputWord = new char[word.randomWord.Length*2];
+            outputWord = word.Blanks();
+            string temp = string.Concat(outputWord);
             // Call a function that draws the dashes for the word.
+             terminalService.WriteText(temp);
             // Call a function that draws the parachute man.
             while (_isPlaying)
             {
+                
                 GetInputs(); // Ask the user for a letter guess
-                DoUpdates(); // Compare the letter to the letters in the word to see if there's a match
-                DoOutputs(); // Call a function that draws the word with any correct guesses drawn
+                outputWord=DoUpdates(outputWord); // Compare the letter to the letters in the word to see if there's a match
+                
+                //outputWord=DoOutputs(outputWord); // Call a function that draws the word with any correct guesses drawn
                 // in and re-draws the parachute with the correct number of lines. 
+                temp = string.Concat(outputWord);
+                terminalService.WriteText(temp);
             }
         }
 
@@ -51,12 +59,13 @@ namespace Unit03.Game
         // Also create an if/else statement to catch the number of incorrect guesses.
         // Update the parachute.
         /// </summary>
-        private void DoUpdates()
+        private char[] DoUpdates(char[] outputWord)
         {
             int guessedRight = 0; // This should keep track of whether or not the guess was correct.
             // If it was correct, this will be greater than zero.
             // I guess this could be a boolean, too, but I like this because it works
             int index = 0;
+            bool win = true; // Assume you win unless at least one letter doesn't match up.
 
            foreach (char l in word.randomWord)
            {
@@ -65,12 +74,21 @@ namespace Unit03.Game
                 
                 if (guess.response == temp)
                 {
-                    word.outputWord[index] = guess.response[0]; //Hopefully, this will replace just the letter with
+                    outputWord[index] = guess.response[0]; //Hopefully, this will replace just the letter with
                     // the correct guess. 
                     guessedRight = 1;
                     
                 } 
-                index ++;
+                if (l != outputWord[index])
+                {
+                    win = false;
+                }
+                index=index+2;
+           }
+           if (win == true)
+           {
+                _isPlaying = false;
+                terminalService.WriteText("Congratulations, you win!");
            }
            // If guessedRight is still equal to zero after it runs the for loop, you know the 
            // Letter was not a match and we need to count the number of incorrect guesses
@@ -79,6 +97,11 @@ namespace Unit03.Game
             {
                 wrongGuesses ++;
             } 
+            if (wrongGuesses == 4)
+            {
+                _isPlaying = false;
+                terminalService.WriteText("You lose!");
+            }
             for (int i = wrongGuesses; i < 6; i++)
             {
                 if (i == 0) 
@@ -99,7 +122,14 @@ namespace Unit03.Game
                 }
                 if (i == 4)
                 {
-                    terminalService.WriteText("  0  ");
+                    if (wrongGuesses==4)
+                    {
+                        terminalService.WriteText("  x  ");
+                    }
+                    else
+                    {
+                        terminalService.WriteText("  0  ");
+                    }
                 } 
                 if (i == 5)
                 {
@@ -110,7 +140,7 @@ namespace Unit03.Game
                 }    
             }
 
-
+            return outputWord;
         }
 
         /// <summary>
