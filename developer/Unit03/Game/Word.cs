@@ -9,7 +9,7 @@ namespace Unit03.Game
     // list of words and have the program randomly select one word. 
     public class Word
     {
-        public char[] outputWord = " ";
+        //public char[] outputWord = [' '];
         public string randomWord = " ";
 
         public Word()
@@ -18,7 +18,7 @@ namespace Unit03.Game
             List<string> wordDictionary = new List<string> {"temple"};
             int index = random.Next(wordDictionary.Count);
             randomWord = wordDictionary[index];
-            outputWord = new char[randomWord.Length];
+            public char [] outputWord = new char[randomWord.Length];
             
             //loop placing a '_' in every space of the word?
             for (int i = 0; i<randomWord.Length-1; i++)
