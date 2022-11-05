@@ -1,0 +1,22 @@
+// Gem Drop Program
+
+// First thing that's different from rbf is that the "robot" is now a basket or some kind of gem 
+// catcher, and it can only move side to side, not up and down. Those functions will need to be 
+// changed. What is the Y axis range of the screen? Set an origin for the basket at an X0 = 0, and 
+// Y0 = to the bottom-most value. Y Max is 600 units. so that would make Y0 = -600 for the basket?
+// Or is that -300? Origin for RFK is 0, 0 and that is the middle of the screen. 
+// X Max is 900. So same question there. 
+
+// I think the cast is limited to just the basket, gems, and rocks, right? So I can set the basket 
+// equal to an underscore. The gems equal to an asterisk. The rocks equal to a zero. As for colors? 
+// I don't think that matters? 
+
+// Okay, start the program:
+// RBF has all of the code for the window, so let's just use that. I need to get my gems and rocks
+// to have an origination point and then appear and start falling. Set them on a time lapse? and 
+// How to get them to fall? 
+
+// When they are collected, they will return a message at the top of the screen, which will be a 
+// running "Total Score". Rocks are -1 point, and Gems are +1 point. Start at whatever number of 
+// points, and the game is over when you reach X number of points (You Win!), or get down to 0 
+// points (You lose!). 
