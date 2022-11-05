@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Unit04.Game.Casting;
 using Unit04.Game.Services;
-
+using Unit04.Game;
 
 namespace Unit04.Game.Directing
 {
@@ -15,6 +15,8 @@ namespace Unit04.Game.Directing
     {
         private KeyboardService _keyboardService = null;
         private VideoService _videoService = null;
+
+        ScoreBoard scoreboard = new ScoreBoard();
 
         /// <summary>
         /// Constructs a new instance of Director using the given KeyboardService and VideoService.
@@ -52,6 +54,8 @@ namespace Unit04.Game.Directing
             Actor robot = cast.GetFirstActor("robot");
             Point velocity = _keyboardService.GetDirection();
             robot.SetVelocity(velocity);     
+
+        
         }
 
         /// <summary>
@@ -65,28 +69,62 @@ namespace Unit04.Game.Directing
             List<Actor> gems = cast.GetActors("gems");
             List<Actor> stones = cast.GetActors("stones");
 
-            banner.SetText("");
+            // don't need this here. We want it outside the DoUpdates so it will stay put.
+            // Just kidding. It just won't show up until a gem or a stone is caught. 
+            // banner.SetText("Score: ");
             int maxX = _videoService.GetWidth();
             int maxY = _videoService.GetHeight();
             robot.MoveNext(maxX, maxY);
 
-            foreach (Actor actor in gems)
+            foreach (Gem gem in gems)
             {
-                if (robot.GetPosition().Equals(actor.GetPosition()))
+                Point temp = new Point(0, gem.GetSpeed());
+
+                gem.SetVelocity(temp);
+                gem.MoveNext(maxX, maxY);
+
+                // There's an issue here with the velocity and y position of the gem. The statement
+                // needs to be re-written so that it will "catch" the gem if the x position is equal
+                // and the y position is within a certain margin.
+
+                if (robot.GetPosition().GetX().Equals(gem.GetPosition().GetX()) && robot.GetPosition().GetY() < gem.GetPosition().GetY())    
                 {
-                    Gem gem = (Gem) actor;
                     int message = gem.GetMessage();
-                    // banner.SetText(message); We need to update the scoreboard
+                    scoreboard.SetScore(message);
+                    banner.SetText("Score: " + scoreboard.GetScore().ToString()); 
+                    cast.RemoveActor("gems", gem);
+                    cast = Unit04.Program.CreateArtifact(cast,1);
+                }
+                // I had to do maxY-11 because if it was just maxY it wouldn't catch before
+                // looping to the top again.
+                else if (gem.GetPosition().GetY() > maxY-11 )
+                {
+                    cast.RemoveActor("gems", gem);
+
+                    cast = Unit04.Program.CreateArtifact(cast,1);
                 }
             
             }
-            foreach (Actor actor in stones)
+            foreach (Stone stone in stones)
             {
-                if (robot.GetPosition().Equals(actor.GetPosition()))
+                Point temp = new Point(0, stone.GetSpeed());
+
+                stone.SetVelocity(temp);
+                stone.MoveNext(maxX, maxY);
+
+                if (robot.GetPosition().GetX().Equals(stone.GetPosition().GetX()) && robot.GetPosition().GetY() < stone.GetPosition().GetY())
                 {
-                    Stone stone = (Stone) actor;
                     int message = stone.GetMessage();
-                    // banner.SetText(message); We need to update the scoreboard
+                    scoreboard.SetScore(message);
+                    banner.SetText("Score: " + scoreboard.GetScore().ToString()); 
+                    cast.RemoveActor("stones", stone);
+                    cast = Unit04.Program.CreateArtifact(cast,1);
+                }
+                
+                else if (stone.GetPosition().GetY() > maxY-14 )
+                {
+                    cast.RemoveActor("stones", stone);
+                    cast = Unit04.Program.CreateArtifact(cast,1);
                 }
             } 
         }

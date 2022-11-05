@@ -1,10 +1,10 @@
 namespace Unit04.Game.Casting
 {
-    class Scoreboard
+    class ScoreBoard
     {
         private int _score;
 
-        public Scoreboard()
+        public ScoreBoard()
         {
              _score = 0;
         }

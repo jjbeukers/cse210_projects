@@ -24,7 +24,7 @@ namespace Unit04
         private static string CAPTION = "Robot Finds Kitten";
         private static string DATA_PATH = "Data/messages.txt";
         private static Color WHITE = new Color(255, 255, 255);
-        private static int DEFAULT_ARTIFACTS = 5 ;
+        private static int DEFAULT_ARTIFACTS = 10 ;
 
 
         /// <summary>
@@ -52,18 +52,31 @@ namespace Unit04
             robot.SetPosition(new Point(MAX_X / 2, 585 ));
             cast.AddActor("robot", robot);
 
-            // load the messages
-            List<string> messages = File.ReadAllLines(DATA_PATH).ToList<string>();
+            cast = CreateArtifact(cast, DEFAULT_ARTIFACTS);
 
-            // create the artifacts
+            // load the messages
+            //List<string> messages = File.ReadAllLines(DATA_PATH).ToList<string>();
+               // start the game
+            KeyboardService keyboardService = new KeyboardService(CELL_SIZE);
+            VideoService videoService 
+                = new VideoService(CAPTION, MAX_X, MAX_Y, CELL_SIZE, FRAME_RATE, false);
+            Director director = new Director(keyboardService, videoService);
+            director.StartGame(cast);
+
+            // test comment
+        }
+
+    // create the artifacts
+        public static Cast CreateArtifact(Cast cast, int NewArtifacts)
+        {
             Random random = new Random();
-            for (int i = 0; i < DEFAULT_ARTIFACTS; i++)
+            for (int i = 0; i < NewArtifacts; i++)
             {
-                string text = ((char)random.Next(33, 126)).ToString();
-                string message = messages[i];
+                //string text = ((char)random.Next(33, 126)).ToString();
+                //string message = messages[i];
 
                 int x = random.Next(1, COLS);
-                int y = random.Next(1, ROWS);
+                int y = 1;
                 Point position = new Point(x, y);
                 position = position.Scale(CELL_SIZE);
 
@@ -72,31 +85,37 @@ namespace Unit04
                 int b = random.Next(0, 256);
                 Color color = new Color(r, g, b);
 
-                Gem gem = new Gem();
-                gem.SetText("*");
-                gem.SetFontSize(FONT_SIZE);
-                gem.SetColor(color);
-                gem.SetPosition(position);
-                gem.SetMessage(10);
-                cast.AddActor("Gem", gem);
+                // We'll keep the gems and stones in the for loop, and now we just 
+                // have to create one or the other, not both.
 
-                Stone stone = new Stone();
-                stone.SetText("O");
-                stone.SetFontSize(FONT_SIZE);
-                stone.SetColor(color);
-                stone.SetPosition(position);
-                stone.SetMessage(-10);
-                cast.AddActor("Stone", stone);
+                int miner = random.Next(1, 300);
+
+                if (miner < 150)
+                {
+                    Gem gem = new Gem();
+                    gem.SetText("*");
+                    gem.SetFontSize(FONT_SIZE);
+                    gem.SetColor(color);
+                    gem.SetPosition(position);
+                    gem.SetMessage(10);
+                    cast.AddActor("gems", gem);
+                }                
+
+                else
+                {
+                    Stone stone = new Stone();
+                    stone.SetText("O");
+                    stone.SetFontSize(FONT_SIZE);
+                    stone.SetColor(color);
+                    stone.SetPosition(position);
+                    stone.SetMessage(-10);
+                    cast.AddActor("stones", stone);
+
+                    
+                }
             }
 
-            // start the game
-            KeyboardService keyboardService = new KeyboardService(CELL_SIZE);
-            VideoService videoService 
-                = new VideoService(CAPTION, MAX_X, MAX_Y, CELL_SIZE, FRAME_RATE, false);
-            Director director = new Director(keyboardService, videoService);
-            director.StartGame(cast);
-
-            // test comment
+            return cast;        
         }
     }
 }
