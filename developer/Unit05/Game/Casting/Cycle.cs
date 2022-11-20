@@ -6,22 +6,24 @@ namespace Unit05.Game.Casting
 {
     /// <summary>
     /// <para>A long limbless reptile.</para>
-    /// <para>The responsibility of Snake is to move itself.</para>
+    /// <para>The responsibility of Cycle is to move itself.</para>
     /// </summary>
-    public class Snake : Actor
+    public class Cycle : Actor
     {
         private List<Actor> _segments = new List<Actor>();
+        private Point _currentDirection;
 
         /// <summary>
-        /// Constructs a new instance of a Snake.
+        /// Constructs a new instance of a Cycle.
         /// </summary>
-        public Snake()
+        public Cycle(Point startingPoint, Color color)
         {
-            PrepareBody();
+            PrepareBody(startingPoint, color);
+            _currentDirection = new Point(0, Constants.CELL_SIZE);
         }
 
         /// <summary>
-        /// Gets the snake's body segments.
+        /// Gets the cycle's body segments.
         /// </summary>
         /// <returns>The body segments in a List.</returns>
         public List<Actor> GetBody()
@@ -30,7 +32,7 @@ namespace Unit05.Game.Casting
         }
 
         /// <summary>
-        /// Gets the snake's head segment.
+        /// Gets the cycle's head segment.
         /// </summary>
         /// <returns>The head segment as an instance of Actor.</returns>
         public Actor GetHead()
@@ -39,84 +41,62 @@ namespace Unit05.Game.Casting
         }
 
         /// <summary>
-        /// Gets the snake's segments (including the head).
+        /// Gets the cycle's segments (including the head).
         /// </summary>
-        /// <returns>A list of snake segments as instances of Actors.</returns>
+        /// <returns>A list of cycle segments as instances of Actors.</returns>
         public List<Actor> GetSegments()
         {
             return _segments;
         }
 
-        /// <summary>
-        /// Grows the snake's tail by the given number of segments.
-        /// </summary>
-        /// <param name="numberOfSegments">The number of segments to grow.</param>
-        public void GrowTail(int numberOfSegments)
-        {
-            for (int i = 0; i < numberOfSegments; i++)
-            {
-                Actor tail = _segments.Last<Actor>();
-                Point velocity = tail.GetVelocity();
-                Point offset = velocity.Reverse();
-                Point position = tail.GetPosition().Add(offset);
-
-                Actor segment = new Actor();
-                segment.SetPosition(position);
-                segment.SetVelocity(velocity);
-                segment.SetText("#");
-                segment.SetColor(Constants.GREEN);
-                _segments.Add(segment);
-            }
-        }
-
         /// <inheritdoc/>
         public override void MoveNext()
         {
-            foreach (Actor segment in _segments)
-            {
-                segment.MoveNext();
-            }
+            // Add a new segment at the beginning of the list -- the head.
+            Actor oldHead = GetHead();
+            oldHead.SetText("#"); 
 
-            for (int i = _segments.Count - 1; i > 0; i--)
-            {
-                Actor trailing = _segments[i];
-                Actor previous = _segments[i - 1];
-                Point velocity = previous.GetVelocity();
-                trailing.SetVelocity(velocity);
-            }
+            int x = (oldHead.GetPosition().GetX() + _currentDirection.GetX() + Constants.MAX_X) % Constants.MAX_X;
+            int y = (oldHead.GetPosition().GetY() + _currentDirection.GetY() + Constants.MAX_Y) % Constants.MAX_Y; 
+
+            Point position = new Point(x, y);
+            Point velocity = new Point(0, 0);
+            string text = "@";
+            Color color = oldHead.GetColor();
+
+            Actor segment = new Actor();
+            segment.SetPosition(position);
+            segment.SetVelocity(velocity);
+            segment.SetText(text);
+            segment.SetColor(color);
+            _segments.Insert(0, segment);
+            // Add in the direction the cycle is moving. 
+            // Update the cycle to be a # -- the trail.
         }
 
         /// <summary>
-        /// Turns the head of the snake in the given direction.
+        /// Turns the head of the cycle in the given direction.
         /// </summary>
         /// <param name="velocity">The given direction.</param>
         public void TurnHead(Point direction)
         {
-            _segments[0].SetVelocity(direction);
+            _currentDirection = direction;
         }
 
         /// <summary>
-        /// Prepares the snake body for moving.
+        /// Prepares the cycle body for moving.
         /// </summary>
-        private void PrepareBody()
+        private void PrepareBody(Point startingPoint, Color color)
         {
-            int x = Constants.MAX_X / 2;
-            int y = Constants.MAX_Y / 2;
+            Point velocity = new Point(0, 0);
+            string text = "@";
 
-            for (int i = 0; i < Constants.SNAKE_LENGTH; i++)
-            {
-                Point position = new Point(x - i * Constants.CELL_SIZE, y);
-                Point velocity = new Point(1 * Constants.CELL_SIZE, 0);
-                string text = i == 0 ? "8" : "#";
-                Color color = i == 0 ? Constants.YELLOW : Constants.GREEN;
-
-                Actor segment = new Actor();
-                segment.SetPosition(position);
-                segment.SetVelocity(velocity);
-                segment.SetText(text);
-                segment.SetColor(color);
-                _segments.Add(segment);
-            }
+            Actor segment = new Actor();
+            segment.SetPosition(startingPoint);
+            segment.SetVelocity(velocity);
+            segment.SetText(text);
+            segment.SetColor(color);
+            _segments.Add(segment);
         }
     }
 }

@@ -3,12 +3,6 @@ using System;
 
 namespace Unit05.Game.Casting
 {
-    /// <summary>
-    /// <para>A tasty item that snakes like to eat.</para>
-    /// <para>
-    /// The responsibility of Food is to select a random position and points that it's worth.
-    /// </para>
-    /// </summary>
     public class Score : Actor
     {
         private int _points = 0;

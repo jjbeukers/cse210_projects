@@ -10,8 +10,8 @@ namespace Unit05.Game.Scripting
     /// <summary>
     /// <para>An update action that handles interactions between the actors.</para>
     /// <para>
-    /// The responsibility of HandleCollisionsAction is to handle the situation when the snake 
-    /// collides with the food, or the snake collides with its segments, or the game is over.
+    /// The responsibility of HandleCollisionsAction is to handle the situation when the cycle 
+    /// collides with the other player, or the cycle collides with its segments, or the game is over.
     /// </para>
     /// </summary>
     public class HandleCollisionsAction : Action
@@ -30,47 +30,35 @@ namespace Unit05.Game.Scripting
         {
             if (_isGameOver == false)
             {
-                HandleFoodCollisions(cast);
                 HandleSegmentCollisions(cast);
                 HandleGameOver(cast);
             }
         }
 
         /// <summary>
-        /// Updates the score nd moves the food if the snake collides with it.
-        /// </summary>
-        /// <param name="cast">The cast of actors.</param>
-        private void HandleFoodCollisions(Cast cast)
-        {
-            Snake snake = (Snake)cast.GetFirstActor("snake");
-            Score score = (Score)cast.GetFirstActor("score");
-            Food food = (Food)cast.GetFirstActor("food");
-            
-            if (snake.GetHead().GetPosition().Equals(food.GetPosition()))
-            {
-                int points = food.GetPoints();
-                snake.GrowTail(points);
-                score.AddPoints(points);
-                food.Reset();
-            }
-        }
-
-        /// <summary>
-        /// Sets the game over flag if the snake collides with one of its segments.
+        /// Sets the game over flag if the cycle collides with one of its segments.
         /// </summary>
         /// <param name="cast">The cast of actors.</param>
         private void HandleSegmentCollisions(Cast cast)
         {
-            Snake snake = (Snake)cast.GetFirstActor("snake");
-            Actor head = snake.GetHead();
-            List<Actor> body = snake.GetBody();
+            //Cycle cycle = (Cycle)cast.GetFirstActor("cycles");
 
-            foreach (Actor segment in body)
+            foreach (Cycle cycle in cast.GetActors("cycles"))
             {
-                if (segment.GetPosition().Equals(head.GetPosition()))
+                Actor head = cycle.GetHead();
+
+                foreach (Cycle otherCycle in cast.GetActors("cycles"))
                 {
-                    _isGameOver = true;
-                }
+                    List<Actor> body = otherCycle.GetBody();
+
+                    foreach (Actor segment in body)
+                    {
+                        if (segment.GetPosition().Equals(head.GetPosition()))
+                        {
+                            _isGameOver = true;
+                        }
+                    }
+                } 
             }
         }
 
@@ -78,10 +66,7 @@ namespace Unit05.Game.Scripting
         {
             if (_isGameOver == true)
             {
-                Snake snake = (Snake)cast.GetFirstActor("snake");
-                List<Actor> segments = snake.GetSegments();
-                Food food = (Food)cast.GetFirstActor("food");
-
+                
                 // create a "game over" message
                 int x = Constants.MAX_X / 2;
                 int y = Constants.MAX_Y / 2;
@@ -92,12 +77,18 @@ namespace Unit05.Game.Scripting
                 message.SetPosition(position);
                 cast.AddActor("messages", message);
 
-                // make everything white
-                foreach (Actor segment in segments)
+                foreach (Cycle cycle in cast.GetActors("cycles"))
                 {
-                    segment.SetColor(Constants.WHITE);
+                    List<Actor> segments = cycle.GetSegments();
+                    foreach (Actor segment in segments)
+                    {
+                        segment.SetColor(Constants.WHITE);
+                    }
+
                 }
-                food.SetColor(Constants.WHITE);
+
+                // make everything white
+                
             }
         }
 
