@@ -27,7 +27,7 @@ namespace Unit05
             Cycle cycle1 = new Cycle(point1, Constants.RED);
             cast.AddActor("cycles", cycle1);
             Cycle cycle2 = new Cycle(point2, Constants.GREEN);
-            cast.AddActor("score", cycle2);
+            cast.AddActor("cycles", cycle2);
 
             // create the services
             KeyboardService keyboardService = new KeyboardService();
