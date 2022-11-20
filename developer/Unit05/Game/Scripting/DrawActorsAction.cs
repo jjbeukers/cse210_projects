@@ -35,7 +35,7 @@ namespace Unit05.Game.Scripting
             Actor score = cast.GetFirstActor("score");
             List<Actor> messages = cast.GetActors("messages");
             
-            _videoService.DrawActor(score);
+            //_videoService.DrawActor(score);
             _videoService.DrawActors(messages);
             _videoService.FlushBuffer();
         }
