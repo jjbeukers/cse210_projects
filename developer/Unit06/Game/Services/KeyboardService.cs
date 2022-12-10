@@ -1,57 +1,63 @@
-using System.Collections.Generic;
 using Raylib_cs;
-using Unit06.Game.Casting;
+using Unit04.Game.Casting;
 
 
-namespace Unit06.Game.Services
+namespace Unit04.Game.Services
 {
     /// <summary>
     /// <para>Detects player input.</para>
     /// <para>
-    /// The responsibility of a KeyboardService is to indicate whether or not a key is up or down.
+    /// The responsibility of a KeyboardService is to detect player key presses and translate them 
+    /// into a point representing a direction.
     /// </para>
     /// </summary>
     public class KeyboardService
     {
-        private Dictionary<string, KeyboardKey> _keys
-                = new Dictionary<string, KeyboardKey>();
+        private int _cellSize = 15;
 
         /// <summary>
         /// Constructs a new instance of KeyboardService using the given cell size.
         /// </summary>
-        public KeyboardService()
+        /// <param name="cellSize">The cell size (in pixels).</param>
+        public KeyboardService(int cellSize)
         {
-            _keys["w"] = KeyboardKey.KEY_W;
-            _keys["a"] = KeyboardKey.KEY_A;
-            _keys["s"] = KeyboardKey.KEY_S;
-            _keys["d"] = KeyboardKey.KEY_D;
-            _keys["i"] = KeyboardKey.KEY_I;
-            _keys["j"] = KeyboardKey.KEY_J;
-            _keys["k"] = KeyboardKey.KEY_K;
-            _keys["l"] = KeyboardKey.KEY_L;
+            this._cellSize = cellSize;
         }
 
         /// <summary>
-        /// Checks if the given key is currently down.
+        /// Gets the selected direction based on the currently pressed keys.
         /// </summary>
-        /// <param name="key">The given key (w, a, s, d, i, j, k, or l)</param>
-        /// <returns>True if the given key is down; false if otherwise.</returns>
-        public bool IsKeyDown(string key)
+        /// <returns>The direction as an instance of Point.</returns>
+        public Point GetDirection()
         {
-            KeyboardKey raylibKey = _keys[key.ToLower()];
-            return Raylib.IsKeyDown(raylibKey);
-        }
+            int dx = 0;
+            int dy = 0;
 
-        /// <summary>
-        /// Checks if the given key is currently up.
-        /// </summary>
-        /// <param name="key">The given key (w, a, s, d, i, j, k, or l)</param>
-        /// <returns>True if the given key is up; false if otherwise.</returns>
-        public bool IsKeyUp(string key)
-        {
-            KeyboardKey raylibKey = _keys[key.ToLower()];
-            return Raylib.IsKeyUp(raylibKey);
-        }
+            if (Raylib.IsKeyDown(KeyboardKey.KEY_LEFT))
+            {
+                dx = -1;
+            }
 
+            if (Raylib.IsKeyDown(KeyboardKey.KEY_RIGHT))
+            {
+                dx = 1;
+            }
+
+            // Commenting out the Y-Axis movement. We only need to move in the X direction.
+            //if (Raylib.IsKeyDown(KeyboardKey.KEY_UP))
+            //{
+            //    dy = -1;
+            //}
+
+            //if (Raylib.IsKeyDown(KeyboardKey.KEY_DOWN))
+            //{
+            //    dy = 1;
+            //}
+
+            Point direction = new Point(dx, dy);
+            direction = direction.Scale(_cellSize);
+
+            return direction;
+        }
     }
 }

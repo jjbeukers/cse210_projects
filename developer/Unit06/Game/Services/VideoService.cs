@@ -1,10 +1,9 @@
 using System.Collections.Generic;
-using System.Reflection.Metadata;
 using Raylib_cs;
-using Unit06.Game.Casting;
+using Unit04.Game.Casting;
 
 
-namespace Unit06.Game.Services
+namespace Unit04.Game.Services
 {
     /// <summary>
     /// <para>Outputs the game state.</para>
@@ -14,14 +13,25 @@ namespace Unit06.Game.Services
     /// </summary>
     public class VideoService
     {
+        private int _cellSize = 15;
+        private string _caption = "";
+        private int _width = 640;
+        private int _height = 480;
+        private int _frameRate = 0;
         private bool _debug = false;
 
         /// <summary>
         /// Constructs a new instance of KeyboardService using the given cell size.
         /// </summary>
         /// <param name="cellSize">The cell size (in pixels).</param>
-        public VideoService(bool debug)
+        public VideoService(string caption, int width, int height, int cellSize, int frameRate, 
+                bool debug)
         {
+            this._caption = caption;
+            this._width = width;
+            this._height = height;
+            this._cellSize = cellSize;
+            this._frameRate = frameRate;
             this._debug = debug;
         }
 
@@ -84,6 +94,33 @@ namespace Unit06.Game.Services
         }
 
         /// <summary>
+        /// Gets the grid's cell size.
+        /// </summary>
+        /// <returns>The cell size.</returns>
+        public int GetCellSize()
+        {
+            return _cellSize;
+        }
+
+        /// <summary>
+        /// Gets the screen's height.
+        /// </summary>
+        /// <returns>The height (in pixels).</returns>
+        public int GetHeight()
+        {
+            return _height;
+        }
+
+        /// <summary>
+        /// Gets the screen's width.
+        /// </summary>
+        /// <returns>The width (in pixels).</returns>
+        public int GetWidth()
+        {
+            return _width;
+        }
+
+        /// <summary>
         /// Whether or not the window is still open.
         /// </summary>
         /// <returns>True if the window is open; false if otherwise.</returns>
@@ -97,8 +134,8 @@ namespace Unit06.Game.Services
         /// </summary>
         public void OpenWindow()
         {
-            Raylib.InitWindow(Constants.MAX_X, Constants.MAX_Y, Constants.CAPTION);
-            Raylib.SetTargetFPS(Constants.FRAME_RATE);
+            Raylib.InitWindow(_width, _height, _caption);
+            Raylib.SetTargetFPS(_frameRate);
         }
 
         /// <summary>
@@ -106,13 +143,13 @@ namespace Unit06.Game.Services
         /// </summary>
         private void DrawGrid()
         {
-            for (int x = 0; x < Constants.MAX_X; x += Constants.CELL_SIZE)
+            for (int x = 0; x < _width; x += _cellSize)
             {
-                Raylib.DrawLine(x, 0, x, Constants.MAX_Y, Raylib_cs.Color.GRAY);
+                Raylib.DrawLine(x, 0, x, _height, Raylib_cs.Color.GRAY);
             }
-            for (int y = 0; y < Constants.MAX_Y; y += Constants.CELL_SIZE)
+            for (int y = 0; y < _height; y += _cellSize)
             {
-                Raylib.DrawLine(0, y, Constants.MAX_X, y, Raylib_cs.Color.GRAY);
+                Raylib.DrawLine(0, y, _width, y, Raylib_cs.Color.GRAY);
             }
         }
 
