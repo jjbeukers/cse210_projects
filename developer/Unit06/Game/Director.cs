@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using Unit04.Game.Casting;
 using Unit04.Game.Services;
 using Unit04.Game;
+
 
 namespace Unit04.Game.Directing
 {
@@ -13,6 +15,8 @@ namespace Unit04.Game.Directing
     /// </summary>
     public class Director
     {
+        private bool _isPlaying = true; 
+        int _count = 0;
         private KeyboardService _keyboardService = null;
         private VideoService _videoService = null;
 
@@ -33,13 +37,43 @@ namespace Unit04.Game.Directing
         /// Starts the game by running the main game loop for the given cast.
         /// </summary>
         /// <param name="cast">The given cast.</param>
-        public void StartGame(Cast cast)
+        public void StartGame(Cast cast,double path)
         {
+            double weight = 2.5;
             _videoService.OpenWindow();
-            while (_videoService.IsWindowOpen())
-            {
+            while (_isPlaying)
+            { 
+
+                //weight the direction of the path so it veers further
+                if (path<10)
+                {
+                    weight = 1.1;
+                }
+                else if (path>50)
+                {
+                    weight = 0.9;
+                }
+                Random random = new Random();
+                double pathChange = 0;
+                int direction = random.Next(1, 300);
+
+                if (direction < 100 / weight)
+                {
+                    pathChange = -0.26;
+                }
+                else if(direction > 300 / weight)
+                {
+                    pathChange = 0.26;
+                }
+                else
+                {
+                    pathChange = 0;
+                }
+            
+                path = path + pathChange;
+                
                 GetInputs(cast);
-                DoUpdates(cast);
+                DoUpdates(cast,path);
                 DoOutputs(cast);
             }
             _videoService.CloseWindow();
@@ -62,7 +96,7 @@ namespace Unit04.Game.Directing
         /// Updates the robot's position and resolves any collisions with artifacts.
         /// </summary>
         /// <param name="cast">The given cast.</param>
-        private void DoUpdates(Cast cast)
+        private void DoUpdates(Cast cast, double path)
         {
             Actor banner = cast.GetFirstActor("banner");
             Actor robot = cast.GetFirstActor("robot");
@@ -74,6 +108,7 @@ namespace Unit04.Game.Directing
             int maxX = _videoService.GetWidth();
             int maxY = _videoService.GetHeight();
             robot.MoveNext(maxX, maxY);
+            
 
             foreach (Gem gem in gems)
             {
@@ -92,7 +127,7 @@ namespace Unit04.Game.Directing
                     scoreboard.SetScore(message);
                     banner.SetText("Score: " + scoreboard.GetScore().ToString()); 
                     cast.RemoveActor("gems", gem);
-                    cast = Unit04.Program.CreateArtifact(cast,1);
+                    //cast = Unit04.Program.CreateArtifact(cast,1);
                 }
                 // I had to do maxY-11 because if it was just maxY it wouldn't catch before
                 // looping to the top again.
@@ -100,7 +135,7 @@ namespace Unit04.Game.Directing
                 {
                     cast.RemoveActor("gems", gem);
 
-                    cast = Unit04.Program.CreateArtifact(cast,1);
+                    //cast = Unit04.Program.CreateArtifact(cast,1);
                 }
             
             }
@@ -111,21 +146,31 @@ namespace Unit04.Game.Directing
                 maze.SetVelocity(temp);
                 maze.MoveNext(maxX, maxY);
 
-                if (robot.GetPosition().GetX().Equals(maze.GetPosition().GetX()) && robot.GetPosition().GetY() < maze.GetPosition().GetY())
+                if ((maze.GetPosition().GetX()) < robot.GetPosition().GetX() + 8 && (maze.GetPosition().GetX()) > robot.GetPosition().GetX() - 8 
+                && robot.GetPosition().GetY() - 8 < (maze.GetPosition().GetY()) && robot.GetPosition().GetY() + 8 > (maze.GetPosition().GetY()))
                 {
-                    int message = maze.GetMessage();
-                    scoreboard.SetScore(message);
-                    banner.SetText("Score: " + scoreboard.GetScore().ToString()); 
-                    cast.RemoveActor("mazes", maze);
-                    cast = Unit04.Program.CreateArtifact(cast,1);
+                    _isPlaying = false;
+                    banner.SetText("You lose! Better luck next time! "); 
                 }
                 
                 else if (maze.GetPosition().GetY() > maxY-14 )
                 {
                     cast.RemoveActor("mazes", maze);
-                    cast = Unit04.Program.CreateArtifact(cast,1);
                 }
-            } 
+
+                
+            }
+            // Add a new line each time the maze shifts down.
+            // How many "move nexts" in a row? 
+            // Create a counter and when the count = 16 we are going to call
+            // the CreateArtifact method.
+            
+            _count++ ;
+            if (_count == 8)
+            {
+                cast = Unit04.Program.CreateArtifact(cast,(int)path);
+                _count = 0;
+            }
         }
 
         /// <summary>
